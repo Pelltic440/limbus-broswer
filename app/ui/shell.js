@@ -503,7 +503,7 @@
   /* ---------- browser (program) updates ---------- */
   function auHtml() {
     var msg;
-    if (au.state === 'nosource') msg = 'No update source is set yet. Enter the GitHub repository that holds your Limbus Browser releases (owner/name).';
+    if (au.state === 'nosource') msg = 'No update source is set yet. Enter the GitHub repository that holds your Limbus Browser update files (owner/name).';
     else if (au.state === 'checking') msg = 'Looking for a new version…';
     else if (au.state === 'downloading') msg = 'Downloading version ' + au.latest + '…';
     else if (au.state === 'ready') msg = 'Version ' + au.latest + ' is downloaded and checked. It starts the next time the browser opens, or now with the button below.' + (au.notes ? ' What is new: ' + au.notes : '');

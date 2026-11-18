@@ -1,0 +1,6 @@
+{
+  "version": "1.1.1",
+  "sha256": "fa2e8d63fe355b20fbfb2d9815e2535e98630a2830a37b7718e8d71423e310e5",
+  "notes": "Updates now come from the release folder of your GitHub repository. Sync code between PC and phone.",
+  "minElectron": "45.0.0"
+}

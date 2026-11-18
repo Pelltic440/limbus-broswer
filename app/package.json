@@ -1,7 +1,7 @@
 {
   "name": "limbus-browser",
   "productName": "Limbus Browser",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A personal Limbus Company themed browser",
   "main": "boot.js",
   "private": true,

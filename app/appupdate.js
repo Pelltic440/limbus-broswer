@@ -1,7 +1,7 @@
 'use strict';
 // Keeps the browser's own program files (the interface, the Hub, the data, the ad blocker code) current.
-// It looks at the latest release of one GitHub repository that the user chose, downloads limbus-app.zip,
-// checks it against the SHA-256 in limbus-app.json, unpacks it into a waiting folder and tells the window.
+// It looks at the release/ folder of one GitHub repository that the user chose (main branch), downloads
+// limbus-app.zip, checks it against the SHA-256 in limbus-app.json, unpacks it into a waiting folder and tells the window.
 // boot.js applies the waiting update the next time the browser starts, and rolls it back if it fails to start.
 const fs = require('fs');
 const path = require('path');
@@ -25,7 +25,7 @@ function newer(a, b) {
 function create(o) {
   const { app, session, userFile, readJson, writeJson, sendShell, fromShell, ipcMain, boot, test } = o;
   const fetchWeb = (url) => session.fetch(url, { headers: { 'User-Agent': 'LimbusBrowser-updater', Accept: 'application/vnd.github+json, application/octet-stream, */*' } });
-  const api = (test && process.env.LB_UPDATE_API) || 'https://api.github.com';
+  const api = (test && process.env.LB_UPDATE_API) || '';
   const defaults = (() => { try { return JSON.parse(fs.readFileSync(path.join(__dirname, 'update-default.json'), 'utf8')); } catch (e) { return {}; } })();
   let cfg = Object.assign({ repo: '', auto: true }, defaults, readJson('update.json', {}));
   if (typeof cfg.repo !== 'string' || (cfg.repo && !REPO_RE.test(cfg.repo))) cfg.repo = '';
@@ -57,13 +57,9 @@ function create(o) {
     if (!r.ok) throw new Error('HTTP ' + r.status);
     return r.json();
   }
-  function assetUrl(rel, name) {
-    const a = (rel.assets || []).filter((x) => x && x.name === name)[0];
-    if (!a || typeof a.browser_download_url !== 'string') throw new Error('The release has no ' + name);
-    const u = a.browser_download_url;
-    const okHost = test ? /^http:\/\/127\.0\.0\.1[:/]/.test(u) : u.toLowerCase().indexOf('https://github.com/' + cfg.repo.toLowerCase() + '/releases/download/') === 0;
-    if (!okHost) throw new Error('The release file does not come from ' + cfg.repo);
-    return u;
+  // update files live in the repository's release/ folder on the main branch
+  function fileUrl(name) {
+    return (test ? api + '/raw/' + cfg.repo + '/main/release/' : 'https://raw.githubusercontent.com/' + cfg.repo + '/main/release/') + name;
   }
 
   async function check(opts) {
@@ -73,9 +69,8 @@ function create(o) {
     try {
       syncBoot();
       if (S.state !== 'ready') { S.state = 'checking'; S.error = ''; publish(); }
-      const rel = await getJson(api + '/repos/' + cfg.repo + '/releases/latest');
-      const manifest = await getJson(assetUrl(rel, 'limbus-app.json'));
-      if (!manifest || !VER_RE.test(String(manifest.version)) || !/^[0-9a-f]{64}$/i.test(String(manifest.sha256))) throw new Error('The release information is not valid');
+      const manifest = await getJson(fileUrl('limbus-app.json'));
+      if (!manifest || !VER_RE.test(String(manifest.version)) || !/^[0-9a-f]{64}$/i.test(String(manifest.sha256))) throw new Error('The update information is not valid');
       S.checkedAt = Date.now();
       const bad = boot.state().bad || [];
       if (!newer(manifest.version, S.current) || bad.indexOf(manifest.version) >= 0) {
@@ -88,7 +83,7 @@ function create(o) {
       }
       if (S.state === 'ready' && S.latest === manifest.version) return snap();
       S.latest = manifest.version; S.notes = String(manifest.notes || '').slice(0, 2000);
-      if (cfg.auto || (opts && opts.download)) { busy = false; return await download(manifest, assetUrl(rel, 'limbus-app.zip')); }
+      if (cfg.auto || (opts && opts.download)) { busy = false; return await download(manifest, fileUrl('limbus-app.zip')); }
       S.state = 'available';
     } catch (err) {
       S.state = 'error'; S.error = String(err && err.message || err);

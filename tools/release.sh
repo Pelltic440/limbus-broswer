@@ -3,7 +3,7 @@
 # Builds the program-update files the browser downloads from a GitHub release:
 #   out/release/limbus-app.zip   the whole app folder
 #   out/release/limbus-app.json  {version, sha256, notes, minElectron}
-# Upload both as assets of one GitHub release (tag v<version>) in the repository set in Settings > Browser updates.
+# Commit both into the release/ folder of the update repository (main branch). The browser reads them from there.
 set -euo pipefail
 V="${1:?version like 1.2.0}"; NOTES="${2:-}"
 [[ "$V" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo "version must look like 1.2.0"; exit 1; }
