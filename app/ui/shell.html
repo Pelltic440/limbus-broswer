@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Limbus Browser</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' file:; script-src 'self' file:; style-src 'self' file: 'unsafe-inline'; img-src * data: blob: file:; font-src 'self' file: data:; connect-src 'none'; object-src 'none'">
+<link rel="stylesheet" href="shell.css">
+</head>
+<body>
+<div id="app">
+  <header id="titlebar">
+    <button id="brand" class="nd" title="Your Sinner today"><i class="lamp"></i><span id="brandName">Limbus</span></button>
+    <div id="tabs" class="nd" role="tablist"></div>
+    <button id="newTab" class="nd icon" title="New tab (Ctrl+T)" aria-label="New tab"></button>
+    <div class="winspace"></div>
+  </header>
+  <div id="toolbar">
+    <button id="back" class="icon" title="Back (Alt+Left)" aria-label="Back"></button>
+    <button id="fwd" class="icon" title="Forward (Alt+Right)" aria-label="Forward"></button>
+    <button id="reload" class="icon" title="Reload (Ctrl+R)" aria-label="Reload"></button>
+    <button id="homeBtn" class="icon" title="Start page" aria-label="Start page"></button>
+    <div id="omni">
+      <span id="lock" aria-hidden="true"></span>
+      <input id="addr" type="text" spellcheck="false" autocomplete="off" placeholder="Search, type a web address, or ask a question" aria-label="Address bar">
+      <button id="star" class="icon" title="Bookmark this page (Ctrl+D)" aria-label="Bookmark"></button>
+      <div id="sugg" hidden></div>
+    </div>
+    <button id="shield" class="icon" title="Ad blocker" aria-label="Ad blocker"></button>
+    <button id="dlBtn" class="icon" title="Downloads (Ctrl+J)" aria-label="Downloads"></button>
+    <button id="menuBtn" class="icon" title="Settings" aria-label="Settings"></button>
+  </div>
+  <div id="body">
+    <nav id="rail" aria-label="Quick access"></nav>
+    <main id="stage">
+      <div id="views"></div>
+      <div id="findbar" hidden>
+        <input id="findInput" placeholder="Find in page" aria-label="Find in page" spellcheck="false">
+        <span id="findCount"></span>
+        <button id="findPrev" class="icon" aria-label="Previous match"></button>
+        <button id="findNext" class="icon" aria-label="Next match"></button>
+        <button id="findClose" class="icon" aria-label="Close find"></button>
+      </div>
+      <div id="bubble" hidden></div>
+    </main>
+    <aside id="panel" hidden>
+      <header>
+        <b id="panelName"></b><span class="grow"></span>
+        <button id="panelAct" class="small" hidden></button>
+        <button id="panelTab" class="icon" title="Open in a tab" aria-label="Open in a tab"></button>
+        <button id="panelClose" class="icon" title="Close panel" aria-label="Close panel"></button>
+      </header>
+      <div id="panelViews"></div>
+    </aside>
+    <aside id="drawer" hidden></aside>
+  </div>
+  <div id="toasts" role="status"></div>
+  <div id="ctxmenu" hidden></div>
+  <div id="tip" hidden></div>
+</div>
+<script src="../hub/js/core.js"></script>
+<script src="../hub/js/content.js"></script>
+<script src="shell.js"></script>
+</body>
+</html>

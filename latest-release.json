@@ -1,0 +1,6 @@
+{
+  "version": "1.1.0",
+  "sha256": "a04f9f6af62cf95ee755d1f762f566ea6c57c551f414c6bf7b1ed8e3f87a911e",
+  "notes": "Browser updates from your own GitHub repository, sync code between PC and phone.",
+  "minElectron": "45.0.0"
+}

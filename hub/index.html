@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Limbus Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Oswald:wght@400;500;600;700&family=Spectral:ital,wght@1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="#home"><span class="lamp" aria-hidden="true"></span><b id="brandName">Limbus Hub</b></a>
+  <nav class="tabs" id="tabs" aria-label="Sections"></nav>
+  <span class="sync" id="sync" role="status"></span>
+</header>
+<main id="view"></main>
+<nav class="bottom" id="bottom" aria-label="Sections"></nav>
+<div class="sheet" id="sheet" hidden></div>
+<div class="toast" id="toast" role="status" hidden></div>
+<script src="data/catalog.js"></script>
+<script src="data/tiersrc.js"></script>
+<script src="data/feed.js"></script>
+<script src="js/core.js"></script>
+<script src="js/content.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
